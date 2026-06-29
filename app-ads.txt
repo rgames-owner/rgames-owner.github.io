@@ -1,0 +1,2 @@
+# App Ads Configuration
+# This file contains app advertising and monetization settings
