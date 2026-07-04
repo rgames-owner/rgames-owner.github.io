@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hunter Tower — 던전 방치형 RPG</title>
+  <meta name="description" content="Hunter Tower — 헌터를 모으고 성장시켜 끝없는 탑을 오르는 방치형 RPG. 지금 무료로 플레이하세요.">
+
+  <!-- Open Graph (카톡/SNS 공유 미리보기) -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Hunter Tower — 던전 방치형 RPG">
+  <meta property="og:description" content="헌터를 모으고 성장시켜 끝없는 탑을 오르는 방치형 RPG.">
+  <meta property="og:image" content="og-image.png">
+  <meta name="theme-color" content="#12100c">
+
+  <style>
+    :root {
+      --bg: #12100c;
+      --panel: #1c1a14;
+      --card: #262219;
+      --gold: #e8b849;
+      --gold-soft: #f2cf78;
+      --text: #f4efe4;
+      --subtext: #a89f8c;
+      --border: #3a3428;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
+        "Malgun Gothic", "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    .wrap { width: 100%; max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+
+    /* ── 배경 장식 ── */
+    .glow {
+      position: fixed; top: -20%; left: 50%; transform: translateX(-50%);
+      width: 900px; height: 900px; pointer-events: none; z-index: 0;
+      background: radial-gradient(circle, rgba(232,184,73,0.12) 0%, transparent 60%);
+    }
+
+    /* ── 헤더 ── */
+    header {
+      position: sticky; top: 0; z-index: 20;
+      background: rgba(18,16,12,0.85);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 1.15rem; }
+    .brand .mark {
+      width: 34px; height: 34px; border-radius: 9px;
+      background: linear-gradient(135deg, var(--gold), #a97c1e);
+      display: grid; place-items: center; color: #1a1710; font-weight: 900;
+    }
+    .brand b { color: var(--gold); }
+    .nav-cta {
+      background: var(--gold); color: #1a1710; font-weight: 700;
+      padding: 9px 18px; border-radius: 999px; font-size: 0.92rem;
+      transition: transform .15s ease, box-shadow .15s ease;
+    }
+    .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(232,184,73,0.3); }
+
+    /* ── 히어로 ── */
+    .hero { position: relative; z-index: 1; text-align: center; padding: 84px 0 72px; }
+    .badge {
+      display: inline-block; font-size: 0.82rem; letter-spacing: 0.5px;
+      color: var(--gold-soft); border: 1px solid var(--border);
+      background: var(--panel); padding: 6px 14px; border-radius: 999px; margin-bottom: 24px;
+    }
+    .hero h1 {
+      font-size: clamp(2.2rem, 6vw, 4rem); font-weight: 900; line-height: 1.15;
+      letter-spacing: -0.5px; margin-bottom: 18px;
+    }
+    .hero h1 .accent {
+      background: linear-gradient(120deg, var(--gold-soft), var(--gold));
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .hero p { font-size: clamp(1rem, 2.5vw, 1.25rem); color: var(--subtext); max-width: 620px; margin: 0 auto 36px; }
+
+    .stores { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; }
+    .store-btn {
+      display: flex; align-items: center; gap: 12px;
+      background: var(--card); border: 1px solid var(--border);
+      padding: 12px 22px; border-radius: 14px; min-width: 220px;
+      transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease;
+    }
+    .store-btn:hover { transform: translateY(-3px); border-color: var(--gold); box-shadow: 0 10px 28px rgba(0,0,0,0.4); }
+    .store-btn svg { width: 30px; height: 30px; flex-shrink: 0; }
+    .store-btn .txt { text-align: left; line-height: 1.25; }
+    .store-btn .txt small { display: block; font-size: 0.72rem; color: var(--subtext); }
+    .store-btn .txt strong { font-size: 1.05rem; }
+
+    /* ── 섹션 공통 ── */
+    section.block { position: relative; z-index: 1; padding: 72px 0; }
+    .section-title { text-align: center; margin-bottom: 48px; }
+    .section-title h2 { font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 800; }
+    .section-title p { color: var(--subtext); margin-top: 10px; }
+
+    /* ── 기능 카드 ── */
+    .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+    .feature {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 18px; padding: 28px 24px;
+      transition: transform .15s ease, border-color .15s ease;
+    }
+    .feature:hover { transform: translateY(-4px); border-color: var(--gold); }
+    .feature .ic {
+      width: 52px; height: 52px; border-radius: 13px; margin-bottom: 16px;
+      display: grid; place-items: center; font-size: 1.6rem;
+      background: linear-gradient(135deg, rgba(232,184,73,0.22), rgba(232,184,73,0.06));
+      border: 1px solid var(--border);
+    }
+    .feature h3 { font-size: 1.15rem; margin-bottom: 8px; }
+    .feature p { color: var(--subtext); font-size: 0.95rem; }
+
+    /* ── CTA 배너 ── */
+    .cta-banner {
+      position: relative; z-index: 1;
+      background: linear-gradient(135deg, var(--panel), var(--card));
+      border: 1px solid var(--border); border-radius: 24px;
+      text-align: center; padding: 56px 28px; margin: 40px 0;
+    }
+    .cta-banner h2 { font-size: clamp(1.5rem, 4vw, 2.2rem); margin-bottom: 12px; }
+    .cta-banner p { color: var(--subtext); margin-bottom: 28px; }
+
+    /* ── 푸터 ── */
+    footer { position: relative; z-index: 1; border-top: 1px solid var(--border); padding: 36px 0; margin-top: 40px; }
+    .foot { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between; color: var(--subtext); font-size: 0.88rem; }
+    .foot-links { display: flex; gap: 20px; flex-wrap: wrap; }
+    .foot-links a:hover { color: var(--gold); }
+
+    @media (max-width: 520px) {
+      .store-btn { min-width: 100%; }
+      .hero { padding: 60px 0 50px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glow"></div>
+
+  <!-- 헤더 -->
+  <header>
+    <div class="wrap nav">
+      <a class="brand" href="#top">
+        <span class="mark">HT</span>
+        Hunter <b>Tower</b>
+      </a>
+      <a class="nav-cta" href="#download">다운로드</a>
+    </div>
+  </header>
+
+  <!-- 히어로 -->
+  <main id="top">
+    <section class="hero">
+      <div class="wrap">
+        <span class="badge">⚔️ 방치형 던전 RPG · 15개 언어 지원</span>
+        <h1>끝없는 탑을 오르는<br><span class="accent">헌터 방치형 RPG</span></h1>
+        <p>헌터를 소환하고 등급을 올려 무한의 탑에 도전하세요.
+           자동 전투, 유물 수집, 계승 시스템으로 손 놓아도 성장은 계속됩니다.</p>
+
+        <div class="stores" id="download">
+          <!-- Google Play -->
+          <a class="store-btn" href="https://play.google.com/store/apps/details?id=com.rgames.huntertower" target="_blank" rel="noopener">
+            <svg viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M48 59.6C43 64 40 71 40 80v352c0 9 3 16 8 20.4L245 256 48 59.6z" fill="#34a853"/>
+              <path d="M336 176l-91-52L48 59.6C50 57.8 52.4 56.4 55 55.6c9-3 19-1.6 27 3L336 176z" fill="#ea4335"/>
+              <path d="M336 336L88 453.4c-8 4.6-18 6-27 3-2.6-.8-5-2.2-7-4L245 256l91 80z" fill="#4285f4"/>
+              <path d="M472 234c11 6.4 18 17.6 18 22s-7 15.6-18 22l-83 48-93-82 93-82 83 72z" fill="#fbbc04"/>
+            </svg>
+            <span class="txt"><small>GET IT ON</small><strong>Google Play</strong></span>
+          </a>
+
+          <!-- 원스토어 -->
+          <a class="store-btn" href="#" target="_blank" rel="noopener">
+            <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="24" cy="24" r="22" fill="#ee3424"/>
+              <path d="M24 12c-6.6 0-12 4.6-12 10.4 0 3.6 2.2 6.8 5.6 8.6l-1.4 5 5.6-3c.7.1 1.5.1 2.2.1 6.6 0 12-4.6 12-10.7S30.6 12 24 12z" fill="#fff"/>
+            </svg>
+            <span class="txt"><small>지금 다운로드</small><strong>ONE store</strong></span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 기능 -->
+    <section class="block">
+      <div class="wrap">
+        <div class="section-title">
+          <h2>게임 특징</h2>
+          <p>깊이 있는 성장 시스템, 부담 없는 방치형 플레이</p>
+        </div>
+        <div class="features">
+          <div class="feature">
+            <div class="ic">🏰</div>
+            <h3>무한의 탑</h3>
+            <p>끝없이 이어지는 층을 돌파하며 강력한 보스와 엘리트 몬스터에 맞서세요.</p>
+          </div>
+          <div class="feature">
+            <div class="ic">🛡️</div>
+            <h3>헌터 수집 · 등급강화</h3>
+            <p>다양한 헌터를 모으고 F부터 최상위 등급까지 성장시켜 파티를 강화하세요.</p>
+          </div>
+          <div class="feature">
+            <div class="ic">💎</div>
+            <h3>유물 시스템</h3>
+            <p>전투를 유리하게 바꾸는 유물을 획득·강화해 나만의 빌드를 완성하세요.</p>
+          </div>
+          <div class="feature">
+            <div class="ic">♻️</div>
+            <h3>계승 시스템</h3>
+            <p>진행을 계승해 영구 성장 보너스를 쌓고 더 높은 층에 재도전하세요.</p>
+          </div>
+          <div class="feature">
+            <div class="ic">⏱️</div>
+            <h3>자동 방치 전투</h3>
+            <p>손을 떼도 헌터가 알아서 싸웁니다. 오프라인에도 보상이 쌓입니다.</p>
+          </div>
+          <div class="feature">
+            <div class="ic">🌏</div>
+            <h3>15개 언어 지원</h3>
+            <p>한국어를 비롯한 15개 언어로 전 세계 어디서나 즐길 수 있습니다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA 배너 -->
+    <div class="wrap">
+      <div class="cta-banner">
+        <h2>지금 바로 탑에 도전하세요</h2>
+        <p>무료 다운로드 · 인앱 구매 포함</p>
+        <div class="stores" style="justify-content:center;">
+          <a class="store-btn" href="https://play.google.com/store/apps/details?id=com.rgames.huntertower" target="_blank" rel="noopener">
+            <svg viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M48 59.6C43 64 40 71 40 80v352c0 9 3 16 8 20.4L245 256 48 59.6z" fill="#34a853"/>
+              <path d="M336 176l-91-52L48 59.6C50 57.8 52.4 56.4 55 55.6c9-3 19-1.6 27 3L336 176z" fill="#ea4335"/>
+              <path d="M336 336L88 453.4c-8 4.6-18 6-27 3-2.6-.8-5-2.2-7-4L245 256l91 80z" fill="#4285f4"/>
+              <path d="M472 234c11 6.4 18 17.6 18 22s-7 15.6-18 22l-83 48-93-82 93-82 83 72z" fill="#fbbc04"/>
+            </svg>
+            <span class="txt"><small>GET IT ON</small><strong>Google Play</strong></span>
+          </a>
+          <a class="store-btn" href="#" target="_blank" rel="noopener">
+            <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="24" cy="24" r="22" fill="#ee3424"/>
+              <path d="M24 12c-6.6 0-12 4.6-12 10.4 0 3.6 2.2 6.8 5.6 8.6l-1.4 5 5.6-3c.7.1 1.5.1 2.2.1 6.6 0 12-4.6 12-10.7S30.6 12 24 12z" fill="#fff"/>
+            </svg>
+            <span class="txt"><small>지금 다운로드</small><strong>ONE store</strong></span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- 푸터 -->
+  <footer>
+    <div class="wrap foot">
+      <div>© 2026 RGames. All rights reserved.</div>
+      <div class="foot-links">
+        <a href="#">개인정보처리방침</a>
+        <a href="#">이용약관</a>
+        <a href="mailto:contact@rgames.example">문의</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
